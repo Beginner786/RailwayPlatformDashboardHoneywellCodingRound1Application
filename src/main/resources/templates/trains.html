@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <title>Users</title>
+</head>
+<style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li a:hover:not(.active) {
+      background-color: #111;
+    }
+
+    .active {
+      background-color: #04AA6D;
+    }
+
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      border: 1px solid #ccc;
+      background-color: #f1f1f1;
+    }
+
+    /* Style the buttons that are used to open the tab content */
+    .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+    }
+
+    /* Change background color of buttons on hover */
+    .tab button:hover {
+      background-color: #ddd;
+    }
+
+    /* Create an active/current tablink class */
+    .tab button.active {
+      background-color: #ccc;
+    }
+
+    /* Style the tab content */
+    .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      border-top: none;
+    }
+
+</style>
+<body>
+<br>
+<center><h1>Hyderabad Railway Station</h1></center><br>
+<ul>
+    <li><a href="/">Passenger</a></li>
+    <li><a href="/trains">Station Master</a></li>
+</ul><br>
+
+
+<div class="tab">
+    <button class="tablinks" onclick="openEvent(event, 'trains')">View all trains</button>
+    <button class="tablinks" onclick="openEvent(event, 'add')">Add a train</button>
+    <button class="tablinks" onclick="openEvent(event, 'update')">Update a train</button>
+    <button class="tablinks" onclick="openEvent(event, 'delete')">Delete a train</button>
+</div>
+
+
+<div id="trains" class="tabcontent">
+    <div class="container">
+        <br>
+        <h3>All Trains List</h3>
+        <hr>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Train Number</th>
+                <th>Train Name</th>
+                <th>State</th>
+                <th>Platform</th>
+                <th>Time</th>
+                <th>Updated At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tempTrain : ${trains}">
+                <td th:text="${tempTrain.train_number}" />
+                <td th:text="${tempTrain.train_name}" />
+                <td th:text="${tempTrain.train_State}" />
+                <td th:text="${tempTrain.train_platform}" />
+                <td th:text="${tempTrain.train_time}" />
+                <td th:text="${tempTrain.updated_at}" />
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="add" class="tabcontent">
+
+    <br>
+    <h3>Add a Train</h3>
+    <hr>
+    <form action="/api/addTrainDetails" method="POST">
+        <p>Train Number: <input type="number" name="train_number" required></p>
+        <p>Train Name: <input type="text" name="train_name" required></p>
+        <p>
+            Train State: <select name="train_state" required>
+                <option value="ARRIVAL">ARRIVAL</option>
+                <option value="DEPARTURE">DEPARTURE</option>
+            </select>
+        </p>
+        <p>Train Platform: <input type="text" name="train_platform" required></p>
+        <p>Train Time: <input type="text" name="train_time" required></p>
+        <input type="text" name="useless" placeholder="Name" hidden>
+        <p><input type="Submit" value="Add"> <input type="Reset" value="Clear the form"></p>
+    </form>
+
+</div>
+
+<div id="update" class="tabcontent">
+
+    <br>
+    <h3>Update a Train</h3>
+    <hr>
+    <form action="/api/updateTrainDetails" method="POST">
+        <p>
+            Train Number: <select name="train_number" required>
+                <option th:each="tempId : ${trains}" th:text="${tempId.train_number}"/>
+            </select>
+        </p>
+        <input type="text" name="useless" placeholder="Name" hidden>
+        <p>Train Name: <input type="text" name="train_name" required></p>
+        <p>
+            Train State: <select name="train_state" required>
+            <option value="ARRIVAL">ARRIVAL</option>
+            <option value="DEPARTURE">DEPARTURE</option>
+        </select>
+        </p>
+        <p>Train Platform: <input type="text" name="train_platform" required></p>
+        <p>Train Time: <input type="text" name="train_time" required></p>
+        <input type="text" name="useless" placeholder="Name" hidden>
+        <p><input type="Submit" value="Update"> <input type="Reset" value="Clear the form"></p>
+    </form>
+
+</div>
+
+<div id="delete" class="tabcontent">
+
+    <br>
+    <h3>Delete a Train</h3>
+    <hr>
+    <form action="/api/deleteTrainDetails" method="POST">
+        <p>
+            Train Number: <select name="train_number" required>
+            <option th:each="tempId : ${trains}" th:text="${tempId.train_number}"/>
+        </select>
+        </p>
+        <input type="text" name="useless" placeholder="Name" hidden>
+        <p><input type="Submit" value="Delete"> <input type="Reset" value="Clear the form"></p>
+    </form>
+
+</div>
+</body>
+<script>
+    function openEvent(evt, cityName) {
+
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+</script>
+</html>

@@ -1,0 +1,94 @@
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+</head>
+<style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #333;
+    }
+
+    li {
+      float: left;
+    }
+
+    li a {
+      display: block;
+      color: white;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+    }
+
+    li a:hover:not(.active) {
+      background-color: #111;
+    }
+
+    .active {
+      background-color: #04AA6D;
+    }
+</style>
+<body>
+<br>
+<center><h1>Hyderabad Railway Station</h1></center><br>
+<ul>
+    <li><a href="/">Passenger</a></li>
+    <li><a href="/trains">Station Master</a></li>
+</ul>
+
+<div class="tab">
+    <button class="tablinks" onclick="openEvent(event, 'trainslocalview')">Reload trains list</button>
+</div>
+
+<div id="trainslocalview" class="tabcontent">
+    <div class="container">
+        <br>
+        <h3>All Trains List</h3>
+        <hr>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Train Number</th>
+                <th>Train Name</th>
+                <th>State</th>
+                <th>Platform</th>
+                <th>Time</th>
+                <th>Updated At</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tempTrain : ${trainslocalview}">
+                <td th:text="${tempTrain.train_number}" />
+                <td th:text="${tempTrain.train_name}" />
+                <td th:text="${tempTrain.train_State}" />
+                <td th:text="${tempTrain.train_platform}" />
+                <td th:text="${tempTrain.train_time}" />
+                <td th:text="${tempTrain.updated_at}" />
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+<script>
+    function openEvent(evt, cityName) {
+
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(cityName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+</script>
+</html>
